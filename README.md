@@ -5,14 +5,14 @@ Urway React Native Plugin
 ## Installation
 
 ```sh
-npm install react-native-urwaypaymentplugin
+npm install react-native-urwaylib
 ```
 
 ## Usage
 
 
 ```js
-import { useUrway } from 'react-native-urwaypaymentplugin';
+import { useUrway } from 'react-native-urwaylib';
 
 // ...Apple Pay Integration
 

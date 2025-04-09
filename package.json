@@ -1,5 +1,5 @@
 {
-  "name": "react-native-urwaypaymentplugin",
+  "name": "react-native-urwaylib",
   "version": "1.2",
   "description": "Urway React Native Plugin",
   "source": "./src/index.tsx",
