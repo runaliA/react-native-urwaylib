@@ -1,9 +1,9 @@
 import { NativeModules ,Platform } from 'react-native';
-import sha256 from 'js-sha256';
+// import sha256 from 'js-sha256';
 import { useState,useEffect } from 'react';
 import queryString from 'query-string';
-import publicIP from 'react-native-public-ip';
-import {Base64} from 'js-base64';
+// import publicIP from 'react-native-public-ip';
+// import {Base64} from 'js-base64';
 import { View,Modal ,StyleSheet } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
@@ -49,22 +49,22 @@ const txn_details = "" + requestdata.trackid + "|" + requestdata.terminalId + "|
 "|" + requestdata.currency + "";
 console.log("in Trxn 1 " + txn_details);
 
-const hash = sha256.sha256(txn_details);
+//const hash = sha256.sha256(txn_details);
 
 //let ipadd= await publicIpv4();
 
-console.log('SHA-256 Hash in Apple Pay :', hash);
+//console.log('SHA-256 Hash in Apple Pay :', hash);
 
     let ipadd = '';
   
-    publicIP()
-    .then(ip => {
-    ipadd = ip ;
-    })
-    .catch(error  => {
-      console.log(error);
-      // 'Unable to get IP address.'
-    });
+    // publicIP()
+    // .then(ip => {
+    // ipadd = ip ;
+    // })
+    // .catch(error  => {
+    //   console.log(error);
+    //   // 'Unable to get IP address.'
+    // });
     //console.log("requestdata.trackId"+requestdata.trackid);
     try {
       const appletoken = await getApplePayToken(requestdata.merchantid,requestdata.amount,requestdata.store_name,requestdata.country,requestdata.currency);
@@ -77,7 +77,7 @@ console.log('SHA-256 Hash in Apple Pay :', hash);
           'merchantIp': ipadd,
           'password': requestdata.password,
           'amount': requestdata.amount,
-          'requestHash': hash,
+          'requestHash': "hash",
           'country': requestdata.country,
           'currency': requestdata.currency,
           'customerIp': ipadd,
@@ -134,15 +134,15 @@ export const PluginApp = ( props: {
 
       useEffect(() => 
       {
-        function goForFetch() 
+        async function goForFetch() 
        {
-          const txn_details = "" + requestdata.trackid + "|" + requestdata.terminalId + "|" + requestdata.password + "|" + requestdata.merchantkey + "|" + requestdata.amount +
-          "|" + requestdata.currency + "";
-          const hash = sha256.sha256(txn_details);
+          // const txn_details = "" + requestdata.trackid + "|" + requestdata.terminalId + "|" + requestdata.password + "|" + requestdata.merchantkey + "|" + requestdata.amount +
+          // "|" + requestdata.currency + "";
+          //const hash = sha256.sha256(txn_details);
 
 
-publicIP()
-.then(async ip => {
+// publicIP()
+// .then(async ip => {
   //console.log(ip);
 //ipadd = ip ;
                  
@@ -173,21 +173,21 @@ publicIP()
                  "cardHolderName": requestdata.first_name + " " + requestdata.last_name,
                  'action': requestdata.action,
                 
-                 'merchantIp':ip,
+                 'merchantIp':"ip",
                  'password': requestdata.password,
                  'currency':  requestdata.currency,
                  'country': requestdata.country,
                  'amount': requestdata.amount,
                  'udf2': requestdata.udf2,
                  'udf3': requestdata.udf3,
-                 'customerIp': ip,
+                 'customerIp': "ip",
                  'udf1': "",
                  'udf5': "",
                  'udf4': "",
                  'metaData': requestdata.metadata,
                  'tokenizationType': 0,
                  'cardToken':requestdata.cardtoken,
-                 'requestHash': hash,
+                 'requestHash': "hash",
                  'deviceInfo' : json_devicedata
              };
             }
@@ -204,14 +204,14 @@ publicIP()
                     'customerEmail': requestdata.email,
                     'customerName': requestdata.first_name + " " + requestdata.last_name,
                     'action': requestdata.action,
-                    'merchantIp': ip,
+                    'merchantIp': "ip",
                     'password': requestdata.password,
                     'currency': requestdata.currency,
                     'country': requestdata.country,
                     'amount': requestdata.amount,
                     'udf2':  requestdata.udf2,
                     'udf3': requestdata.udf3,
-                    'customerIp':ip,
+                    'customerIp':"ip",
                     'udf1': "",
                     'udf5': "",
                     'udf4': "",
@@ -219,7 +219,7 @@ publicIP()
                     'cardToken': requestdata.cardtoken,
                     'tokenOperation':requestdata.tokenizationType,
                     'metaData': requestdata.metadata,
-                    'requestHash': hash,
+                    'requestHash': "hash",
                     'deviceInfo' : json_devicedata
                 }
             }
@@ -236,14 +236,14 @@ publicIP()
                 "cardHolderName": requestdata.first_name + " " + requestdata.last_name,
                 'action': requestdata.action,
                 
-                'merchantIp':ip,
+                'merchantIp':"ip",
                 'password': requestdata.password,
                 'currency':  requestdata.currency,
                 'country': requestdata.country,
                 'amount': requestdata.amount,
                 'udf2': requestdata.udf2,
                 'udf3': requestdata.udf3,
-                'customerIp': ip,
+                'customerIp': "ip",
                 'udf1': "",
                 'udf5': "",
                 'udf4': "",
@@ -251,7 +251,7 @@ publicIP()
                 'tokenizationType': 0,
                 'cardToken': requestdata.cardtoken,
             'tokenOperation': requestdata.tokenizationType,
-                'requestHash': hash,
+                'requestHash': "hash",
                 'deviceInfo' : json_devicedata
             };
            }
@@ -339,8 +339,8 @@ publicIP()
                
                   
                  // console.log(" ++ "+ress);
-                  return ress;
-                });
+                //   return ress;
+                // });
            
              }
               goForFetch();  // Call the async function
@@ -384,9 +384,9 @@ publicIP()
             if(match[1] == "metaData" && (match[2] != null || match[2] != ''))
             {
             //  console.log("RESPONSE match[2] METADATA  " +match[2]);
-             var decryptdata=Base64.decode(match[2]);
-             console.log("decrypt METADATA "+ decryptdata);
-             params[match[1]] =decryptdata;
+            //  var decryptdata=Base64.decode(match[2]);
+            //  console.log("decrypt METADATA "+ decryptdata);
+            //  params[match[1]] =decryptdata;
              //params[match[1]]=match[2];
             }
   
