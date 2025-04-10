@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-urwaypaymentplugin": ["./src/index"]
+      "react-native-urwaylib": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
