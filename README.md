@@ -1,4 +1,4 @@
-# react-native-urwaypaymentplugin
+# react-native-urwaylib
 
 Urway React Native Plugin
 
