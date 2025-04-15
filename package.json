@@ -190,6 +190,6 @@
     "js-base64": "^3.7.7",
     "query-string": "^9.1.1",
     "react-native-device-info": "^14.0.4",
-    "react-native-webview": "^13.13.5"
+    "react-native-webview": "^13.12.3"
   }
 }

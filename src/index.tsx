@@ -10,10 +10,10 @@ const { Applepay } = NativeModules;
 // import CustomWebView from './CustomWebView';
 import WebView from 'react-native-webview';
 import React, { useEffect, useState } from 'react';
-// import { Base64 } from 'js-base64';
 import CryptoJS from 'crypto-js';
 import DeviceInfo from 'react-native-device-info';
-// import queryString from 'query-string';
+import queryString from 'query-string';
+import { Base64 } from 'js-base64';
 
 
 interface HostedPluginProps {
@@ -197,8 +197,20 @@ useEffect(() => {
         {
       const linkUrl = dataRequest.targetUrl;
       const transactionId = dataRequest.payid;
-      console.log(linkUrl+"?paymentid="+transactionId);
-      setStrPaymentUrl(linkUrl+"?paymentid="+transactionId)
+
+      let finalUrl = '';
+
+if (linkUrl.includes('?paymentid=')) {
+  finalUrl = linkUrl + transactionId;
+} else {
+  finalUrl = linkUrl + '?paymentid=' + transactionId;
+}
+
+console.log(finalUrl);
+setStrPaymentUrl(finalUrl);
+
+      // console.log(linkUrl+"?paymentid="+transactionId);
+      // setStrPaymentUrl(linkUrl+"?paymentid="+transactionId)
 
       console.log("Link URL:", linkUrl);              
       console.log("Transaction ID:", transactionId);
@@ -225,17 +237,70 @@ useEffect(() => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.urlContainer}>
       
+      </View>
      {showWebView && ( <View style={styles.btnContainer}>
-    
-  
-    <WebView
-      source={{ uri: 'https://www.google.com' }}
-      style={{ flex: 1 }}
+        <WebView 
+
+        originWhitelist={['*']} 
+          source={{ uri: 'https://reactnative.dev/' }}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          useWebKit={true}
+          style={{ flex: 1,height: '100%', width: '100%' }}
+          mixedContentMode="always" 
+          onLoadStart={() => console.log('WebView load started')}
+          onError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.error('WebView error: ', nativeEvent);
+          }}
+          onNavigationStateChange={(navState) => {
+            let respMetaData :any;  
+            //  setCurrentUrl(navState.url); // Update the URL as it changes
+              console.log("Navigated to:", navState.url); 
+           const navUrl  = navState['url'];
+             const responseObject = queryString.parse(navState.url); 
+             if (responseObject['Result'] != "" &&  ( responseObject['Result'] === "Successful" || responseObject['Result'] === "Failure" || responseObject['Result'] === "UnSuccessful" ) )
+              {
+                console.log("in Data "+ navState.url)
+                if(responseObject['metaData'] != "" || responseObject['metaData'] != null )
+                  {
+                        respMetaData = responseObject['metaData'];
+      
+                      console.log(" MetaData Matched "+respMetaData);
+                    
+                    }
+                    var regex = /[?&]([^=#]+)=([^&#]*)/g,
+                    params :any= {},
+                    match:any;
+                  while (match = regex.exec(navUrl)) 
+                  {
+                  //  console.log("RESPONSE params[match[1]] " +match[1]);
+                   // console.log("RESPONSE match[2] " +match[2]);
+          
+                    if(match[1] == "metaData" && (match[2] != null || match[2] != ''))
+                    {
+                    //  console.log("RESPONSE match[2] METADATA  " +match[2]);
+                    var decryptdata=Base64.decode(match[2]);
+                      console.log("decrypt METADATA "+ decryptdata);
+                      params[match[1]] =decryptdata;
+                     //params[match[1]]=match[2];
+                    }
+          
+                    else
+                    {
+                      params[match[1]] = match[2];
+                    }
+                    console.log("RESPONSE   " +JSON.stringify(params));
+                    onClose(JSON.stringify(params));
+                  }
+              }  
+            
+          }}
     />
   </View>
-
-    )};
+    )}
     </SafeAreaView>
   );
 };
