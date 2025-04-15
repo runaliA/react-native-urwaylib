@@ -236,25 +236,28 @@ setStrPaymentUrl(finalUrl);
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.urlContainer}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f0f0f6'}}>
+      <View style={{ flex: 1 }}>
       
       </View>
-     {showWebView && ( <View style={styles.btnContainer}>
+     {showWebView && ( <View style={styles.webViewContainer}>
         <WebView 
 
-        originWhitelist={['*']} 
-          source={{ uri: 'https://reactnative.dev/' }}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          useWebKit={true}
-          style={{ flex: 1,height: '100%', width: '100%' }}
-          mixedContentMode="always" 
-          onLoadStart={() => console.log('WebView load started')}
-          onError={(syntheticEvent) => {
-            const { nativeEvent } = syntheticEvent;
-            console.error('WebView error: ', nativeEvent);
-          }}
+source={{ uri: strpaymenturl }}
+javaScriptEnabled={true}
+domStorageEnabled={true}
+useWebKit={true}
+originWhitelist={['*']}
+mixedContentMode="always"
+style={{ flex: 1 }}
+onLoadStart={() => console.log('✅ WebView load started')}
+onLoadEnd={() => console.log('✅ WebView load finished')}
+onError={(e) => {
+  console.error('❌ WebView error: ', e.nativeEvent);
+}}
+onHttpError={(e) => {
+  console.error('❌ WebView HTTP error: ', e.nativeEvent);
+}}
           onNavigationStateChange={(navState) => {
             let respMetaData :any;  
             //  setCurrentUrl(navState.url); // Update the URL as it changes
