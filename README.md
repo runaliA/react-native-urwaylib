@@ -12,7 +12,7 @@ npm install react-native-urwaylib
 
 
 ```js
-import { useUrway } from 'react-native-urwaylib';
+import { HostedPlugin, ApplePayComponent } from 'react-native-urwaylib';
 
 // ...Apple Pay Integration
 
@@ -21,8 +21,11 @@ const pay = useUrway(JSON.stringify(data));
 
 // ...Purchase,Pre Auth,Tokenization Transaction Integration
 
-(<PluginApp data={JSON.stringify(data)}  onCloseModal={handleCloseModal} />
-  ) :( <Text style={styles.txtAction}></Text> ) 
+
+{showWebView && (
+    <View style = {styles.webViewContainer}>
+     <HostedPlugin data={ appReq } onClose={ handlePaymentResult} />
+    </View>
 ```
 
 
@@ -37,3 +40,6 @@ MIT
 ---
 
 Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
+
+
+⚠️ This plugin supports only the Classic React Native architecture. Do not enable RCT_NEW_ARCH_ENABLED when integrating.

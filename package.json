@@ -1,6 +1,6 @@
 {
   "name": "react-native-urwaylib",
-  "version": "1.2.0",
+  "version": "1.2",
   "description": "Urway React Native Plugin",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -51,12 +51,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/URWAYios/React_CLI.git"
+    "url": "git+https://github.com/runaliA/react-native-urwaylib.git"
   },
-  "author": "Urway <developer@urway.sa> (https://github.com/URWAYios/React_CLI)",
+  "author": "Urway <developer@urway.sa> (https://github.com/runaliA/react-native-urwaylib)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/URWAYios/React_CLI/issues"
+    "url": "https://github.com/runaliA/react-native-urwaylib/issues"
   },
   "homepage": "https://github.com/URWAYios/React_CLI#readme",
   "publishConfig": {
@@ -79,9 +79,9 @@
     "react": "19.0.0",
     "react-native": "0.79.0",
     "react-native-builder-bob": "^0.29.0",
-    "react-native-webview": "^13.10.5",
+    "react-native-webview": "^13.13.5",
     "release-it": "^15.0.0",
-    "turbo": "^1.10.7",
+    
     "typescript": "^5.2.2"
   },
   "resolutions": {
@@ -190,6 +190,6 @@
     "js-base64": "^3.7.7",
     "query-string": "^9.1.1",
     "react-native-device-info": "^14.0.4",
-    "react-native-webview": "^13.12.3"
+    "react-native-webview": "^13.13.5"
   }
 }

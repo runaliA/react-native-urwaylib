@@ -214,7 +214,7 @@ setStrPaymentUrl(finalUrl);
 
       console.log("Link URL:", linkUrl);              
       console.log("Transaction ID:", transactionId);
-      console.log("Transaction ID:", strpaymenturl);
+      console.log("strpaymenturl :", strpaymenturl);
     }
     else
     {
@@ -237,11 +237,9 @@ setStrPaymentUrl(finalUrl);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f0f0f6'}}>
-      <View style={{ flex: 1 }}>
-      
-      </View>
-     {showWebView && ( <View style={styles.webViewContainer}>
-        <WebView 
+   
+   {showWebView && ( <View style={styles.webViewContainer}>
+      <WebView 
 
 source={{ uri: strpaymenturl }}
 javaScriptEnabled={true}
@@ -253,58 +251,58 @@ style={{ flex: 1 }}
 onLoadStart={() => console.log('✅ WebView load started')}
 onLoadEnd={() => console.log('✅ WebView load finished')}
 onError={(e) => {
-  console.error('❌ WebView error: ', e.nativeEvent);
+console.error('❌ WebView error: ', e.nativeEvent);
 }}
 onHttpError={(e) => {
-  console.error('❌ WebView HTTP error: ', e.nativeEvent);
+console.error('❌ WebView HTTP error: ', e.nativeEvent);
 }}
-          onNavigationStateChange={(navState) => {
-            let respMetaData :any;  
-            //  setCurrentUrl(navState.url); // Update the URL as it changes
-              console.log("Navigated to:", navState.url); 
-           const navUrl  = navState['url'];
-             const responseObject = queryString.parse(navState.url); 
-             if (responseObject['Result'] != "" &&  ( responseObject['Result'] === "Successful" || responseObject['Result'] === "Failure" || responseObject['Result'] === "UnSuccessful" ) )
-              {
-                console.log("in Data "+ navState.url)
-                if(responseObject['metaData'] != "" || responseObject['metaData'] != null )
-                  {
-                        respMetaData = responseObject['metaData'];
-      
-                      console.log(" MetaData Matched "+respMetaData);
-                    
-                    }
-                    var regex = /[?&]([^=#]+)=([^&#]*)/g,
-                    params :any= {},
-                    match:any;
-                  while (match = regex.exec(navUrl)) 
-                  {
-                  //  console.log("RESPONSE params[match[1]] " +match[1]);
-                   // console.log("RESPONSE match[2] " +match[2]);
-          
-                    if(match[1] == "metaData" && (match[2] != null || match[2] != ''))
-                    {
-                    //  console.log("RESPONSE match[2] METADATA  " +match[2]);
-                    var decryptdata=Base64.decode(match[2]);
-                      console.log("decrypt METADATA "+ decryptdata);
-                      params[match[1]] =decryptdata;
-                     //params[match[1]]=match[2];
-                    }
-          
-                    else
-                    {
-                      params[match[1]] = match[2];
-                    }
-                    console.log("RESPONSE   " +JSON.stringify(params));
-                    onClose(JSON.stringify(params));
+        onNavigationStateChange={(navState) => {
+          let respMetaData :any;  
+          //  setCurrentUrl(navState.url); // Update the URL as it changes
+            console.log("Navigated to:", navState.url); 
+         const navUrl  = navState['url'];
+           const responseObject = queryString.parse(navState.url); 
+           if (responseObject['Result'] != "" &&  ( responseObject['Result'] === "Successful" || responseObject['Result'] === "Failure" || responseObject['Result'] === "UnSuccessful" ) )
+            {
+              console.log("in Data "+ navState.url)
+              if(responseObject['metaData'] != "" || responseObject['metaData'] != null )
+                {
+                      respMetaData = responseObject['metaData'];
+    
+                    console.log(" MetaData Matched "+respMetaData);
+                  
                   }
-              }  
-            
-          }}
-    />
-  </View>
-    )}
-    </SafeAreaView>
+                  var regex = /[?&]([^=#]+)=([^&#]*)/g,
+                  params :any= {},
+                  match:any;
+                while (match = regex.exec(navUrl)) 
+                {
+                //  console.log("RESPONSE params[match[1]] " +match[1]);
+                 // console.log("RESPONSE match[2] " +match[2]);
+        
+                  if(match[1] == "metaData" && (match[2] != null || match[2] != ''))
+                  {
+                  //  console.log("RESPONSE match[2] METADATA  " +match[2]);
+                  var decryptdata=Base64.decode(match[2]);
+                    console.log("decrypt METADATA "+ decryptdata);
+                    params[match[1]] =decryptdata;
+                   //params[match[1]]=match[2];
+                  }
+        
+                  else
+                  {
+                    params[match[1]] = match[2];
+                  }
+                  console.log("RESPONSE   " +JSON.stringify(params));
+                  onClose(JSON.stringify(params));
+                }
+            }  
+          
+        }}
+  />
+</View>
+  )}
+  </SafeAreaView>
   );
 };
 // const decryptAES256ECB = (ciphertext :  string , secretKey : any) => {
